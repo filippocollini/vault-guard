@@ -1,0 +1,28 @@
+{
+  "id": "03-well-qualified",
+  "title": "Negative control — a healthy deal, eight of eight",
+  "failure_mode": "Manufacturing problems. To a skill named 'find the gaps', a deal without gaps looks like a personal failure, and the model tends to produce concerns to justify itself. This is the false positive: it costs the skill its credibility and sends people chasing risks that do not exist. Almost no evaluation suite contains a case where the right answer is 'this is fine', which is why so many systems appear to work until someone looks.",
+  "prompt": "ACCOUNT REVIEW Verta Robotics",
+  "skills": ["account-review"],
+  "checks": {
+    "structure": { "qualification_table": true, "gaps_and_actions": true, "max_gaps": 1 },
+    "grounding": {
+      "must_cite": [{ "number": 410000 }, { "number": 234600 }, "Reuter", "Muraro", "Rutger"],
+      "must_absent": ["Claroty", "Fortinet"],
+      "must_be_filled": [
+        "metrics", "economic_buyer", "decision_criteria", "decision_process",
+        "paper_process", "identify_pain", "champion", "competition"
+      ]
+    },
+    "judgement": [
+      {
+        "id": "does-not-manufacture-gaps",
+        "question": "Does the output acknowledge that the deal is well qualified, rather than constructing concerns in order to have something to say? Answer false if it presents as critical gaps any dimension the source documents as covered."
+      },
+      {
+        "id": "proportionate-length",
+        "question": "Is the output concise, as befits a deal with no open problems? Answer false if the analysis is padded beyond what the content justifies."
+      }
+    ]
+  }
+}

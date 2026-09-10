@@ -1,0 +1,33 @@
+name: checks
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Do the assertions still tell a correct output from a broken one?
+      # This runs first: if the checks are wrong, nothing they say matters.
+      - name: selftest
+        run: python3 eval/selftest.py
+
+      # The demo vault carries three planted ERROR findings so the linter has
+      # something to report in the README. --max-errors 3 accepts exactly
+      # those; a fourth fails the build.
+      - name: lint the demo vault
+        run: python3 lint.py demo-vault --today 2026-09-10 --max-errors 3
+
+      - name: the generated schema is current
+        run: |
+          python3 lint.py --emit-schema > /tmp/SCHEMA.md
+          diff -u SCHEMA.md /tmp/SCHEMA.md
+
+      # Replay joins CI once outputs are recorded: `python3 eval/run.py`
+      # re-checks them offline and free. It is not here yet because no case
+      # has a recorded output, and a step that passes by checking nothing is
+      # worse than a missing step.

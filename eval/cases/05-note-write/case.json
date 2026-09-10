@@ -1,0 +1,57 @@
+{
+  "id": "05-note-write",
+  "title": "The writing skill — grade the vault, not the prose",
+  "failure_mode": "Three distinct failures, none of them visible in the chat reply. (1) Collateral damage: the requested note is written correctly and meanwhile something changes in an unrelated page — the raw text mentions a second account in passing, and that page must not move by a byte. (2) Inferring too much: the call justifies neither a stage advance nor a close date, and 'it depends on the committee' is not a date. (3) Conventions skipped: the log entry goes to the bottom instead of the top, or next_action is left empty after a real interaction — the kind of thing nobody rereads until the pipeline has already stalled.",
+  "prompt": "RECORD Brenner Mobility\nCall on 9 September 2026. Present: Anna Kofler (Head of Maintenance) and Luca Varesi (IT). Kofler offered to take the case to the October investment committee; from here on she is the one pushing internally. Varesi asked whether the collector runs on ARM, we need to check with the product team by Friday. No close date agreed, Kofler says it depends on the committee. They mentioned in passing that Talvik Steel is looking at something similar, but that is not our concern now.",
+  "expect": "mutation",
+  "skills": ["record-note"],
+  "checks": {
+    "state": {
+      "files_modified": [
+        "notes/accounts/brenner-mobility.md",
+        "notes/deals/d-301-brenner-diagnostics.md",
+        "log.md"
+      ],
+      "files_untouched": ["notes/accounts/talvik-steel.md"],
+      "frontmatter": {
+        "notes/accounts/brenner-mobility.md": {
+          "champion": "Kofler",
+          "updated": "CHANGED",
+          "status": "UNCHANGED",
+          "economic_buyer": "EMPTY",
+          "open_pipeline": "UNCHANGED"
+        },
+        "notes/deals/d-301-brenner-diagnostics.md": {
+          "next_action": "NONEMPTY",
+          "stage": "UNCHANGED",
+          "stage_pct": "UNCHANGED",
+          "expected_close": "EMPTY",
+          "amount": "UNCHANGED",
+          "updated": "CHANGED"
+        }
+      },
+      "contains": {
+        "notes/accounts/brenner-mobility.md": ["Interactions", "Kofler", "committee"],
+        "notes/deals/d-301-brenner-diagnostics.md": ["ARM"]
+      },
+      "log_top_mentions": ["Brenner Mobility"]
+    },
+    "grounding": {
+      "must_absent": ["email sent", "proposal updated"]
+    },
+    "judgement": [
+      {
+        "id": "does-not-advance-the-stage",
+        "question": "Did the skill avoid advancing the deal stage or setting a close date? The call states explicitly that timing depends on a committee that has not met. Answer false if the output claims an advance."
+      },
+      {
+        "id": "reports-what-it-touched",
+        "question": "Does the output list explicitly which files it created and which it modified? Answer false if it describes the work generically without naming files."
+      },
+      {
+        "id": "extractive-not-generative",
+        "question": "Do the bullets record what was said without adding commitments nobody made? Answer false if it attributes decisions or promises to the customer that are not in the raw text."
+      }
+    ]
+  }
+}

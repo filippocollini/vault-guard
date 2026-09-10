@@ -1,0 +1,29 @@
+{
+  "id": "02-sparse-record",
+  "title": "Almost empty record, one call on file",
+  "failure_mode": "Invention. With six of eight dimensions unsupported, the model faces a table to fill and no source to fill it from: exactly the condition in which it produces plausibility instead of fact. Here the correct output is largely empty, and the job of the assertions is to verify that it stays empty.",
+  "prompt": "ACCOUNT REVIEW Halden Energie",
+  "skills": ["account-review"],
+  "checks": {
+    "structure": { "qualification_table": true, "gaps_and_actions": true, "min_gaps": 2 },
+    "grounding": {
+      "must_cite": [{ "number": 23000 }],
+      "must_absent": ["Siemens", "Rutger", "CFO", "steering committee", "board"],
+      "must_flag_unknown": [
+        "economic_buyer", "champion", "decision_process",
+        "paper_process", "competition", "metrics"
+      ],
+      "must_be_filled": ["identify_pain"]
+    },
+    "judgement": [
+      {
+        "id": "invents-no-process",
+        "question": "Does the output avoid describing a decision process, a budget or an approval committee that the source never mentions? Answer false if it attributes steps or roles to the customer that are not documented."
+      },
+      {
+        "id": "proportionate-actions",
+        "question": "Are the proposed actions proportionate to a €23,000 deal at discovery stage — typically booking a second call and finding out who holds budget? Answer false if it proposes a heavyweight enterprise plan."
+      }
+    ]
+  }
+}

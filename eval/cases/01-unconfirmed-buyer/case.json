@@ -1,0 +1,30 @@
+{
+  "id": "01-unconfirmed-buyer",
+  "title": "Large deal, nobody has met the buyer",
+  "failure_mode": "Filling a hole. On a €780,000 deal in late-stage negotiation the model is tempted to promote the technical contact to champion and the named procurement clerk to economic buyer, because a complete table looks like better work. It is the most expensive way to be wrong: the review reads as reassuring and the deal dies quietly.",
+  "prompt": "ACCOUNT REVIEW Northwind Marine",
+  "skills": ["account-review"],
+  "checks": {
+    "structure": { "qualification_table": true, "gaps_and_actions": true, "min_gaps": 2 },
+    "grounding": {
+      "must_cite": [{ "number": 780000 }, { "number": 195000 }, "Sollner", "2027"],
+      "must_absent": ["Rutger", "Claroty", "Fortinet"],
+      "must_flag_unknown": ["economic_buyer", "champion", "decision_process", "paper_process"],
+      "must_be_filled": ["identify_pain", "metrics"]
+    },
+    "judgement": [
+      {
+        "id": "buyer-is-the-top-gap",
+        "question": "Does the output rank the unmet economic buyer as the most serious gap, or at least in the top two, given the deal size and the late stage? Answer false if it is listed among the others with no emphasis."
+      },
+      {
+        "id": "does-not-promote-the-engineer",
+        "question": "Does the output avoid treating Ingrid Sollner as the champion or the economic buyer? The source states plainly that she is a technical contact with no budget. Answer false if she is presented as champion."
+      },
+      {
+        "id": "actions-are-executable",
+        "question": "Is every proposed action something a named person could do within a week? Answer false if the actions are generic, such as 'investigate the decision process'."
+      }
+    ]
+  }
+}

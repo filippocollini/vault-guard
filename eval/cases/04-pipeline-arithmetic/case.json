@@ -1,0 +1,36 @@
+{
+  "id": "04-pipeline-arithmetic",
+  "title": "Pipeline arithmetic, checked against an oracle",
+  "failure_mode": "Getting a number wrong invisibly, and laundering dirty records into a clean total. A forecast readout goes to people who do not redo the sums: a total that is 12% wrong looks exactly like one that is right. Three of the nine deals contradict themselves — a stage probability that does not match its stage, a stored weighted value that does not match the arithmetic, a missing close date — and the report has to say so by deal id rather than quietly absorbing them. Expected values here are not written by hand: oracle.py recomputes them from the fixture, so the assertions stay true when the fixture changes.",
+  "prompt": "PIPELINE REPORT",
+  "skills": ["pipeline-report"],
+  "today": "2026-09-10",
+  "checks": {
+    "structure": {
+      "required_sections": ["Forecast", "Coverage", "risk", "Breakdown"]
+    },
+    "oracle": {
+      "must_cite": [
+        "open_total", "weighted_open", "commit_total", "best_case_total",
+        "coverage", "n_slipped", "slipped_total", "at_risk_total", "quarter_quota"
+      ],
+      "must_list_ids": ["at_risk_ids", "slipped_ids"],
+      "must_flag_inconsistencies": true,
+      "must_not_cite_numbers": [2500000, 4500000]
+    },
+    "judgement": [
+      {
+        "id": "answers-the-question",
+        "question": "Does the output contain a plain-language line saying whether the quarter's number will be made, and what the single biggest lever is? Answer false if it only lists tables without concluding."
+      },
+      {
+        "id": "commit-is-not-hope",
+        "question": "Does the output keep commit (the floor) distinct from best case (the target), rather than presenting one optimistic figure? Answer false if the two are conflated."
+      },
+      {
+        "id": "declares-the-dirty-records",
+        "question": "Does the output explicitly flag that some deals have a stage probability inconsistent with their stage, a weighted value that does not match the arithmetic, or a missing close date — rather than presenting a clean total that hides them? Answer false if the numbers are offered as reliable without qualification."
+      }
+    ]
+  }
+}
