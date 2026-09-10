@@ -1,5 +1,7 @@
 # vault-guard
 
+[![checks](https://github.com/filippocollini/vault-guard/actions/workflows/ci.yml/badge.svg)](https://github.com/filippocollini/vault-guard/actions)
+
 **Quality control for a markdown knowledge base that feeds a language model —
 and for the model's output when it comes back.**
 
