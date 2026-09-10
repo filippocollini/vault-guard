@@ -256,6 +256,46 @@ none:
 - **The fixtures are synthetic.** Every company, person and figure is invented.
   The cost is that they are tidier than a real vault.
 
+## Current results
+
+All five cases recorded and passing, against `claude-sonnet-5`:
+
+```
+[PASS] 01-unconfirmed-buyer      20/20   large deal, buyer never met
+[PASS] 02-sparse-record          20/20   one call on file
+[PASS] 03-well-qualified         21/21   negative control
+[PASS] 04-pipeline-arithmetic    18/18   checked against the oracle
+[PASS] 05-note-write             24/24   graded on the vault, not the prose
+```
+
+Green is the *end* of the story here, not the beginning. The first recorded
+run failed almost everywhere, and working through it changed the suite more
+than it changed anything else:
+
+- **The negative control was contaminated.** The "healthy" account carried two
+  contradictions I had written without noticing — procurement's 30-day window
+  did not fit the stated signature date, and the buyer's signing authority
+  conflicted with a board step. The model found both. The fixture was wrong,
+  not the output. And after cleaning it the model still named two epistemic
+  weaknesses that were fair, which is why "zero gaps" turned out to be the
+  wrong bar for a negative control: what must not happen is presenting a
+  *documented* dimension as uncovered.
+- **A spec ambiguity sent two different numbers to the same reader.** The
+  skill said "commit" without saying gross or weighted. The model summed
+  weighted, the oracle summed gross, and both readings were defensible — which
+  means the specification was the defect. Same again for coverage: dividing
+  the whole open pipeline by one quarter's remaining quota compares two
+  horizons, and there the model's reading was right and the oracle's was
+  wrong.
+- **Four assertions were measuring the wrong thing.** A question mark counted
+  as "unknown". "Empty" did not. A verdict column was being read together with
+  its evidence prose, so a well-filled row failed because the prose said "see
+  gap below". And `€1,878k` was reported missing because the number matcher
+  had never learned the notation every real forecast uses.
+
+Each of those was found by running the thing, and each is now a case or a
+comment in the code.
+
 ## Background
 
 Extracted from a private knowledge vault of a few hundred notes used for

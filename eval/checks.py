@@ -38,12 +38,17 @@ DIMENSIONS = {
 # dimension counts as declared-uncovered — which is what we want to verify,
 # mechanically, rather than asking a model whether the model was honest.
 UNKNOWN_MARKERS = [
-    "gap", "unknown", "not confirmed", "not identified", "not documented",
-    "missing", "absent", "none on file", "no data", "tbd", "n/a", "not met",
-    "to be confirmed", "?",
+    "gap", "unknown", "empty", "not confirmed", "unconfirmed", "not identified",
+    "not documented", "not established", "not known", "missing", "absent",
+    "none on file", "no data", "nothing", "no one", "tbd", "n/a", "not met",
+    "to be confirmed",
 ]
+# "?" used to be on that list. It is far too loose: a cell that ends in a
+# genuine question ("...but is the board step a formality?") was read as
+# declaring the dimension uncovered. A punctuation mark is not a vocabulary.
 
-INFERENCE_MARKERS = ["inferred", "assumed", "implied", "unconfirmed", "to verify"]
+INFERENCE_MARKERS = ["inferred", "assumed", "implied", "unconfirmed",
+                     "not confirmed", "to verify", "unverified"]
 
 # "No critical gaps" written as a bullet states zero, it is not itself a gap.
 # The filter must stay narrow: an early version dropped any line starting with
@@ -64,20 +69,42 @@ def norm(s):
 def number_variants(n):
     """Forms a number can legitimately take in prose.
 
-    780000 -> 780000, 780,000, 780.000, 780 000, 780k, 0.78m
-    Without this a correct figure fails on formatting, which is a false
-    positive — and a suite that cries wolf stops being read.
+    1878000 -> 1878000 | 1,878,000 | 1.878.000 | 1 878 000
+             | 1878k | 1,878k | 1.878k | 1878.0k
+             | 1.9m | 1,9m | 1.88m
+
+    The k and M suffixes matter more than they look. A real forecast readout
+    writes "EUR 1,878k" and "EUR 1.0M", and an earlier version of this
+    function produced only a bare "1878k" — so entirely correct figures were
+    reported missing, six times in one case. A suite that cries wolf on
+    formatting stops being read, which costs more than the check is worth.
     """
     n = int(n)
     out = {str(n)}
-    for sep in (",", ".", " ", " ", "'"):
+    for sep in (",", ".", " ", "\u00a0", "'"):
         out.add(f"{n:,}".replace(",", sep))
-    if n >= 1000 and n % 1000 == 0:
-        out.add(f"{n // 1000}k")
-    if n >= 100000:
-        m = f"{n / 1_000_000:.2f}".rstrip("0").rstrip(".")
-        out.add(m + "m")
-        out.add(m.replace(".", ",") + "m")
+
+    if n >= 1000:
+        k = n / 1000
+        forms = {f"{k:.1f}", f"{k:.2f}".rstrip("0").rstrip(".")}
+        if k.is_integer():
+            forms.add(str(int(k)))
+        for form in forms:
+            whole, _, frac = form.partition(".")
+            for sep in ("", ",", ".", " "):
+                grouped = whole if not sep else f"{int(whole):,}".replace(",", sep)
+                if frac:
+                    out.add(f"{grouped}.{frac}k")
+                    out.add(f"{grouped},{frac}k")
+                else:
+                    out.add(f"{grouped}k")
+
+    if n >= 100_000:
+        for d in (1, 2):
+            m = f"{n / 1_000_000:.{d}f}"
+            for form in (m, m.rstrip("0").rstrip(".")):
+                out.add(form + "m")
+                out.add(form.replace(".", ",") + "m")
     return {norm(v) for v in out}
 
 
@@ -90,8 +117,7 @@ def contains_number(hay, variants):
     adjacent to another digit, and not sitting inside a grouped number.
     """
     for v in variants:
-        pattern = (r"(?<!\d)(?<![\d][.,'\s])" + re.escape(v) + r"(?!\d)(?![.,'\s]\d)")
-        if re.search(pattern, hay):
+        if re.search(r"(?<!\d)(?<![\d][.,'\s])" + re.escape(v) + r"(?!\d)(?![.,'\s]\d)", hay):
             return True
     return False
 
@@ -108,7 +134,17 @@ def ratio_variants(x):
 # ------------------------------------------------------------------- parsing
 
 def parse_table(text):
-    """{dimension: cell text} from the qualification table."""
+    """{dimension: {"state": ..., "full": ...}} from the qualification table.
+
+    The two are kept apart because conflating them was wrong. A three-column
+    table puts the verdict in column two and the evidence in column three, and
+    joining them meant a perfectly well-filled row failed its check because
+    the *evidence* prose happened to contain the word "gap" ("...but see gap
+    below"). The verdict lives in the state column; the prose is context.
+
+    With only two columns there is no separation to make, so state is the
+    whole cell.
+    """
     found = {}
     for line in text.splitlines():
         if line.count("|") < 2:
@@ -119,8 +155,20 @@ def parse_table(text):
         label = norm(re.sub(r"[*_`]", "", cells[0]))
         for key, aliases in DIMENSIONS.items():
             if key not in found and any(label == a or label.startswith(a) for a in aliases):
-                found[key] = " ".join(cells[1:]).strip()
+                found[key] = {"state": cells[1].strip(),
+                              "full": " ".join(cells[1:]).strip()}
     return found
+
+
+def cell_state(table, dim):
+    """The verdict for a dimension, without the supporting prose."""
+    entry = table.get(dim)
+    return norm(entry["state"]) if entry else ""
+
+
+def cell_full(table, dim):
+    entry = table.get(dim)
+    return norm(entry["full"]) if entry else ""
 
 
 def parse_section(text, *titles):
@@ -177,7 +225,7 @@ def check_structure(text, spec):
         missing = [k for k in DIMENSIONS if k not in table]
         out.append(_r("structure", "all-eight-dimensions", not missing,
                       "present" if not missing else f"missing: {', '.join(missing)}"))
-        empty = [k for k, v in table.items() if not norm(v)]
+        empty = [k for k in table if not cell_full(table, k)]
         out.append(_r("structure", "no-empty-cells", not empty,
                       "every dimension has content" if not empty
                       else f"empty: {', '.join(empty)}"))
@@ -188,6 +236,12 @@ def check_structure(text, spec):
 
     gaps = real_items(parse_section(text, "critical gaps", "gaps"))
     actions = real_items(parse_section(text, "action per gap", "actions", "next actions"))
+    # Some outputs put the action directly under its gap rather than in a
+    # section of their own. That satisfies "one action per gap" perfectly
+    # well; only a checker that confuses layout with substance objects.
+    inline = re.findall(r"(?im)^\s*(?:[-*+]\s*)?\*\*action[^:*]*:?\*\*:?\s*(.+)$", text)
+    if inline and (actions is None or len(inline) > len(actions)):
+        actions = inline
 
     if st.get("gaps_and_actions"):
         out.append(_r("structure", "gaps-section", gaps is not None,
@@ -245,19 +299,19 @@ def check_grounding(text, spec):
 
     table = parse_table(text)
     for dim in g.get("must_flag_unknown", []):
-        cell = norm(table.get(dim, ""))
+        cell = cell_state(table, dim)
         ok = bool(cell) and any(m in cell for m in UNKNOWN_MARKERS)
         out.append(_r("grounding", f"{dim} declared uncovered", ok,
                       f"«{cell[:70]}»" if cell else "row absent"))
 
     for dim in g.get("must_be_filled", []):
-        cell = norm(table.get(dim, ""))
+        cell = cell_state(table, dim)
         ok = bool(cell) and not any(m in cell for m in UNKNOWN_MARKERS)
         out.append(_r("grounding", f"{dim} filled", ok,
                       f"«{cell[:70]}»" if cell else "row absent"))
 
     for dim in g.get("must_mark_inferred", []):
-        cell = norm(table.get(dim, ""))
+        cell = cell_full(table, dim)
         ok = any(m in cell for m in INFERENCE_MARKERS)
         out.append(_r("grounding", f"{dim} marked inferred", ok,
                       f"«{cell[:70]}»" if cell else "row absent"))

@@ -112,6 +112,10 @@ def compute(vault, today):
     weighted_open = total(open_deals, "_weighted")
     remaining = max(QUARTER_QUOTA - closed_q, 0)
 
+    # Copertura: numeratore e denominatore devono riferirsi allo stesso
+    # periodo. Il pesato dell'intera pipeline diviso la quota residua di UN
+    # trimestre confronta due orizzonti diversi e gonfia il numero.
+    w_q = round(sum(d["_weighted"] for d in open_deals if this_quarter(d)), 2)
     by_account = {}
     for d in open_deals:
         k = (d.get("account") or "—").strip()
@@ -129,6 +133,8 @@ def compute(vault, today):
         "commit_ids": [d["deal_id"] for d in commit],
         "best_case_total": total(best),
         "best_case_ids": [d["deal_id"] for d in best],
+        "weighted_in_quarter": w_q,
+        "coverage_in_quarter": round(w_q / remaining, 2) if remaining else None,
         "coverage": round(weighted_open / remaining, 2) if remaining else None,
         "n_slipped": len(slipped),
         "slipped_total": total(slipped),

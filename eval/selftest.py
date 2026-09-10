@@ -55,7 +55,7 @@ GOOD_REVIEW = """
 
 | Dimension | State | Source / note |
 |---|---|---|
-| **M**etrics | Partial — €195,000 over 12 months on the Kalmar tranche (300 gateways at €650); three sites still uncounted | account note |
+| **M**etrics | Partial — €195,000 over 12 months on the Kalmar tranche (300 gateways at €650); three sites still uncounted | account note; see gap 1 below |
 | **E**conomic Buyer | **Gap** — never met. M. Falk named for signature, no contact of any kind | frontmatter empty |
 | **D**ecision Criteria | Support continuity plus commercial terms — inferred, not confirmed | 18 June call |
 | **D**ecision Process | Unknown — no steps and no dates on record | — |
@@ -126,6 +126,34 @@ ITEM_LINES = [
 ]
 
 
+# Two properties the state/prose split and the marker vocabulary have to hold.
+# Both come from real failures: a filled row was rejected because its evidence
+# column said "see gap below", and a row whose verdict was literally "Empty"
+# was not recognised as declaring the dimension uncovered.
+VERDICT_CASES = [
+    ("| **E**conomic Buyer | Empty | nobody identified |", "economic_buyer", "uncovered"),
+    ("| **E**conomic Buyer | Unconfirmed | a name circulates |", "economic_buyer", "uncovered"),
+    ("| **E**conomic Buyer | Strong | Reuter, COO — but see gap 2 below |", "economic_buyer", "filled"),
+    ("| **C**hampion | Not identified | technical contact only |", "champion", "uncovered"),
+    ("| **C**hampion | Strong | Muraro, Head of Service |", "champion", "filled"),
+]
+
+
+def suite_verdicts():
+    problems = []
+    bad = 0
+    for row, dim, expected in VERDICT_CASES:
+        table = C.parse_table(row)
+        state = C.cell_state(table, dim)
+        uncovered = bool(state) and any(m in state for m in C.UNKNOWN_MARKERS)
+        got = "uncovered" if uncovered else "filled"
+        if got != expected:
+            bad += 1
+            problems.append(f"VERDICT — {row.strip()} read as {got}, expected {expected}")
+    print(f"verdict column: {len(VERDICT_CASES) - bad}/{len(VERDICT_CASES)} rows read correctly")
+    return problems
+
+
 def suite_text():
     banner("suite 1 — text assertions")
     problems = []
@@ -135,6 +163,7 @@ def suite_text():
            if (not C.is_no_item_line(line)) != is_item]
     print(f"item filter: {len(ITEM_LINES) - len(bad)}/{len(ITEM_LINES)} lines classified correctly")
     problems += [f"ITEM FILTER — {b}" for b in bad]
+    problems += suite_verdicts()
 
     spec = load_spec("01-unconfirmed-buyer")
 

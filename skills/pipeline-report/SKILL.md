@@ -20,6 +20,11 @@ Compute totals by reading every deal and summing. Do not estimate.
 
 - Weighted value = `amount × stage_pct`. Prefer the stored `weighted`, but
   recompute and use the computed figure if the two disagree.
+- **Forecast categories are stated at full deal value, not weighted.** Commit
+  and best case answer "how much revenue lands if these close", so they are
+  sums of `amount`. Weighting belongs to coverage, which is a different
+  question. Report the open pipeline at full value too, with the weighted
+  figure alongside it — never one in place of the other.
 - **Commit** = stage probability ≥ 0.8 **and** qualification score ≥ 7 **and**
   the close date falls in the current quarter.
 - **Best case** = stage probability ≥ 0.6 **and** qualification score ≥ 6 **and**
@@ -27,6 +32,7 @@ Compute totals by reading every deal and summing. Do not estimate.
 - A deal is slipped when its `expected_close` has passed and its status is still
   open.
 - Quarterly quota: €1,000,000. Coverage = weighted open ÷ remaining quota.
+- **Coverage is computed within the quarter.** Numerator and denominator must cover the same horizon: the weighted value of deals that can close in the quarter, divided by that quarter's remaining quota. Dividing the whole open pipeline by one quarter's remaining quota compares two different horizons and inflates the number.
 
 ## Output
 

@@ -92,9 +92,18 @@ def build_vault(case):
 def record(case, model, timeout):
     vault = build_vault(case)
     mutation = case.get("expect") == "mutation"
+
+    # A skill that writes cannot be recorded headlessly under the default
+    # permission mode: every edit raises a prompt nobody can answer, the run
+    # produces a polite refusal, and the state assertions all fail for a
+    # reason that has nothing to do with the skill. `acceptEdits` is scoped to
+    # this throwaway copy of the fixture in a temp directory, and only for
+    # cases that declare themselves as writing.
+    cmd = ["claude", "-p", case["prompt"], "--model", model]
+    if mutation:
+        cmd += ["--permission-mode", "acceptEdits"]
     try:
-        p = subprocess.run(["claude", "-p", case["prompt"], "--model", model],
-                           cwd=vault, capture_output=True, text=True,
+        p = subprocess.run(cmd, cwd=vault, capture_output=True, text=True,
                            timeout=timeout, stdin=subprocess.DEVNULL)
     except FileNotFoundError:
         return None, "the `claude` CLI is not on PATH"

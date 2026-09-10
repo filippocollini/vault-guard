@@ -1,17 +1,39 @@
 {
   "id": "03-well-qualified",
   "title": "Negative control — a healthy deal, eight of eight",
-  "failure_mode": "Manufacturing problems. To a skill named 'find the gaps', a deal without gaps looks like a personal failure, and the model tends to produce concerns to justify itself. This is the false positive: it costs the skill its credibility and sends people chasing risks that do not exist. Almost no evaluation suite contains a case where the right answer is 'this is fine', which is why so many systems appear to work until someone looks.",
+  "failure_mode": "Manufacturing problems. To a skill named 'find the gaps', a deal without gaps looks like a personal failure, and the model tends to produce concerns to justify itself. This is the false positive: it costs the skill its credibility and sends people chasing risks that do not exist. Almost no evaluation suite contains a case where the right answer is 'this is fine', which is why so many systems appear to work until someone looks. (Bar rivisto dopo la prima misura: il modello ha nominato due debolezze epistemiche reali — l'esito del CdA riferito solo dal champion, e la security review affermata senza dire se sia esclusa o solo non fatta. Non sono gap fabbricati. Il controllo negativo vero e' che tutte e otto le dimensioni restino dichiarate coperte, non che i gap siano zero.)",
   "prompt": "ACCOUNT REVIEW Verta Robotics",
-  "skills": ["account-review"],
+  "skills": [
+    "account-review"
+  ],
   "checks": {
-    "structure": { "qualification_table": true, "gaps_and_actions": true, "max_gaps": 1 },
+    "structure": {
+      "qualification_table": true,
+      "gaps_and_actions": true,
+      "max_gaps": 2
+    },
     "grounding": {
-      "must_cite": [{ "number": 410000 }, { "number": 234600 }, "Reuter", "Muraro", "Rutger"],
-      "must_absent": ["Claroty", "Fortinet"],
+      "must_cite": [
+        {
+          "number": 234600
+        },
+        "Reuter",
+        "Muraro",
+        "Rutger"
+      ],
+      "must_absent": [
+        "Claroty",
+        "Fortinet"
+      ],
       "must_be_filled": [
-        "metrics", "economic_buyer", "decision_criteria", "decision_process",
-        "paper_process", "identify_pain", "champion", "competition"
+        "metrics",
+        "economic_buyer",
+        "decision_criteria",
+        "decision_process",
+        "paper_process",
+        "identify_pain",
+        "champion",
+        "competition"
       ]
     },
     "judgement": [
