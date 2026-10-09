@@ -1,4 +1,4 @@
-## Account Review — Northwind Marine
+## Account Review — Northwind Paper
 
 | Dimension | State | Source / note |
 |---|---|---|
@@ -7,7 +7,7 @@
 | **D**ecision Criteria | Empty | Nothing in the account or deal notes states what they're choosing on. |
 | **D**ecision Process | Empty | No steps or dates are known beyond the deal's own `expected_close: 2026-12-15` field — no confirmation this reflects a customer-side process. |
 | **P**aper Process | Empty | Note states explicitly: "Nothing is known about legal or security review timing." |
-| **I**dentify Pain | Strong | Gateway fleet hits end-of-support March 2027 while the signed maintenance contract runs to 2029 — a documented, dated mismatch. Sollner put it in writing after the 18 June call. |
+| **I**dentify Pain | Strong | Gateway fleet hits end-of-support June 2028 while the signed maintenance contract runs to 2030 — a documented, dated mismatch. Sollner put it in writing after the 18 June call. |
 | **C**hampion | Weak / unconfirmed | Sollner is the sole technical contact and has documented the pain, but she has no budget and says so plainly ("she can say it is needed, she cannot say it is bought"). No evidence she advocates to Falk or anyone above him. She reads as an engaged technical contact, not a confirmed champion. |
 | **C**ompetition | Empty | "No other vendor has been named by the customer in any interaction." Status quo (do-nothing / ride out the maintenance contract) is not discussed as a competing option either. |
 

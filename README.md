@@ -236,11 +236,24 @@ code to touch.
 - **The oracle can be wrong too.** It's independent, not infallible; on the
   first run it was the oracle that had the coverage rule wrong, not the model.
 - **The fixtures are synthetic.** Every company, person and figure is
-  invented, which also makes them tidier than a real vault.
+  invented, which also makes them tidier than a real vault. One later edit:
+  the name, sector and end-of-support dates of one account were changed after
+  recording, by the same substitution in fixtures and recordings; the replay
+  gives the same result on every assertion.
 
 ## Background
 
-Extracted from a private knowledge vault of a few hundred notes used for
-day-to-day account work, where the linter and the suite both run as commit
-gates. The private version covers eleven cases across five skills; this is the
-method, with the domain-specific parts removed and the reasoning left in.
+Built for a private knowledge vault of about 130 notes that I use for
+day-to-day account work, where the linter runs as a commit gate and the eval
+suite checks the skills. The private version covers eleven cases across five
+skills; this repository is the method on synthetic data, with no real notes,
+names or figures from that vault: its fixtures are English versions of the
+private suite's synthetic ones.
+
+## The full system
+
+A public, fully synthetic version of the system these checks were built to
+evaluate is [account-vault-llm](https://github.com/filippocollini/account-vault-llm).
+It includes the skills that turn the vault into sales briefings, a weekly
+heartbeat, and all eleven evaluation cases (eight of the eleven pass; the three
+failures are published and explained).

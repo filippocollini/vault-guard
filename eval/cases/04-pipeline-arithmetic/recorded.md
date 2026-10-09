@@ -16,7 +16,7 @@
 | Commit | €1,190,000 | 119% |
 | Best case (cumulative, includes commit) | €1,350,000 | 135% |
 
-- Commit = D-201 Northwind Marine (€780K) + D-202 Verta Robotics (€410K) — both negotiation, 0.8 probability, qualification ≥7, closing this quarter.
+- Commit = D-201 Northwind Paper (€780K) + D-202 Verta Robotics (€410K) — both negotiation, 0.8 probability, qualification ≥7, closing this quarter.
 - Best case adds D-204 Kestrel Pharma (€160K) — proposal, 0.6 probability, qualification 6, closing this quarter.
 - D-207 Marrow Water (negotiation, 0.8) just misses both tiers — qualification score is only 5.
 
@@ -39,7 +39,7 @@
 
 | Account | Amount | Status / flag |
 |---|---|---|
-| Northwind Marine | €780,000 | open, commit |
+| Northwind Paper | €780,000 | open, commit |
 | Verta Robotics | €410,000 | open, commit |
 | Ferro Group | €300,000 | closed-won |
 | Talvik Steel | €250,000 | open, at risk, weighted-value mismatch |
@@ -51,4 +51,4 @@
 
 ## 5. Bottom line
 
-Yes, on paper the quarter is covered — commit alone (€1.19M) already exceeds the €700K of remaining quota — but that cushion rests almost entirely on two deals, so the single biggest lever is keeping Northwind Marine and Verta Robotics on track to close in Q3, since between them they carry the whole quarter.
+Yes, on paper the quarter is covered — commit alone (€1.19M) already exceeds the €700K of remaining quota — but that cushion rests almost entirely on two deals, so the single biggest lever is keeping Northwind Paper and Verta Robotics on track to close in Q3, since between them they carry the whole quarter.

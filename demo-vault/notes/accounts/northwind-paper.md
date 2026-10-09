@@ -1,9 +1,9 @@
 ---
 type: account
-name: "Northwind Marine"
+name: "Northwind Paper"
 owner: "A. Ferrand"
 status: active
-sector: "Shipbuilding"
+sector: "Pulp & Paper"
 open_pipeline: 780000
 economic_buyer: ""
 champion: ""
@@ -13,14 +13,14 @@ tags: [account]
 maturity: developing
 ---
 
-# Northwind Marine
+# Northwind Paper
 
-Shipyard, remote-access refresh across four sites. See [[d-101-northwind-refresh]].
+Paper group, remote-access refresh across four sites. See [[d-101-northwind-refresh]].
 
 ## Status
 
 The technical case is settled: their gateway fleet reaches end-of-support in
-March 2027 while the signed maintenance contract runs to 2029. Their OT manager,
+June 2028 while the signed maintenance contract runs to 2030. Their OT manager,
 Ingrid Sollner, documented the mismatch in writing after the 18 June call.
 
 Sollner is our contact for everything technical. She has no budget and has said

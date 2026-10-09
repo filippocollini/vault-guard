@@ -27,7 +27,7 @@ jobs:
           python3 lint.py --emit-schema > /tmp/SCHEMA.md
           diff -u SCHEMA.md /tmp/SCHEMA.md
 
-      # Replay joins CI once outputs are recorded: `python3 eval/run.py`
-      # re-checks them offline and free. It is not here yet because no case
-      # has a recorded output, and a step that passes by checking nothing is
-      # worse than a missing step.
+      # Re-checks the five recorded outputs offline: no model call, no key,
+      # no cost. Recording (--record) and judgement (--judge) are run by hand.
+      - name: replay the recorded cases
+        run: python3 eval/run.py

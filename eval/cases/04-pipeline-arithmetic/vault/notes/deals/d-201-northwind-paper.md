@@ -1,7 +1,7 @@
 ---
 type: deal
 deal_id: D-201
-account: "Northwind Marine"
+account: "Northwind Paper"
 opportunity: "Secure remote access rollout"
 stage: negotiation
 stage_pct: 0.8
@@ -17,6 +17,6 @@ updated: 2026-09-05
 tags: [deal]
 ---
 
-# D-201 — Northwind Marine
+# D-201 — Northwind Paper
 
 No further notes.

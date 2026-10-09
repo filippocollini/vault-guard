@@ -51,7 +51,7 @@ def banner(title):
 # ==========================================================================
 
 GOOD_REVIEW = """
-## Northwind Marine — qualification
+## Northwind Paper — qualification
 
 | Dimension | State | Source / note |
 |---|---|---|
@@ -60,7 +60,7 @@ GOOD_REVIEW = """
 | **D**ecision Criteria | Support continuity plus commercial terms — inferred, not confirmed | 18 June call |
 | **D**ecision Process | Unknown — no steps and no dates on record | — |
 | **P**aper Process | Unknown — legal and security review timing never discussed | — |
-| **I**dentify Pain | End of support March 2027 against maintenance contracted to 2029 | 18 June call, in writing |
+| **I**dentify Pain | End of support June 2028 against maintenance contracted to 2030 | 18 June call, in writing |
 | **C**hampion | Not identified — Sollner is the technical contact and states she has no budget | 18 June call |
 | **C**ompetition | No competitor named by the customer in any interaction | — |
 
@@ -217,7 +217,7 @@ Open pipeline 1,878,000, weighted 1,331,900. Coverage 1.9 against the remainder.
 2 deals, 340,000 in total: D-205 (90,000) and D-206 (250,000).
 
 ## 4 — Breakdown by account
-Northwind Marine 780,000 · Verta Robotics 410,000 · Talvik Steel 250,000.
+Northwind Paper 780,000 · Verta Robotics 410,000 · Talvik Steel 250,000.
 
 ## 5 — In one line
 The quarter closes if D-201 signs; on its own it exceeds the remaining quota.

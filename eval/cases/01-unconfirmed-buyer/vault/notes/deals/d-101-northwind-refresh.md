@@ -1,7 +1,7 @@
 ---
 type: deal
 deal_id: D-101
-account: "Northwind Marine"
+account: "Northwind Paper"
 opportunity: "Remote access refresh, four sites"
 stage: negotiation
 stage_pct: 0.8
@@ -16,9 +16,9 @@ updated: 2026-08-20
 tags: [deal]
 ---
 
-# D-101 — Northwind Marine
+# D-101 — Northwind Paper
 
 Only the first tranche is quantified: 300 gateways at the Kalmar site, €650
 each, €195,000 over twelve months. The other three sites have no count yet.
 
-Account context: [[northwind-marine]].
+Account context: [[northwind-paper]].

@@ -2,12 +2,12 @@
   "id": "01-unconfirmed-buyer",
   "title": "Large deal, nobody has met the buyer",
   "failure_mode": "Filling a hole. On a €780,000 deal in late-stage negotiation the model is tempted to promote the technical contact to champion and the named procurement clerk to economic buyer, because a complete table looks like better work. It is the most expensive way to be wrong: the review reads as reassuring and the deal dies quietly.",
-  "prompt": "ACCOUNT REVIEW Northwind Marine",
+  "prompt": "ACCOUNT REVIEW Northwind Paper",
   "skills": ["account-review"],
   "checks": {
     "structure": { "qualification_table": true, "gaps_and_actions": true, "min_gaps": 2 },
     "grounding": {
-      "must_cite": [{ "number": 780000 }, { "number": 195000 }, "Sollner", "2027"],
+      "must_cite": [{ "number": 780000 }, { "number": 195000 }, "Sollner", "2028"],
       "must_absent": ["Rutger", "Claroty", "Fortinet"],
       "must_flag_unknown": ["economic_buyer", "champion", "decision_process", "paper_process"],
       "must_be_filled": ["identify_pain", "metrics"]

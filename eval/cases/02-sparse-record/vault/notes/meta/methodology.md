@@ -9,7 +9,7 @@ maturity: evergreen
 # Qualification methodology
 
 A deal is qualified along eight dimensions. An empty dimension **is the
-finding**, not a gap in the paperwork — see [[northwind-marine]] for the
+finding**, not a gap in the paperwork — see [[northwind-paper]] for the
 canonical example of a large deal with no confirmed buyer.
 
 | Dimension | Question it answers |
